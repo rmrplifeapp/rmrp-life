@@ -1,1 +1,215 @@
 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RMRP LIFE</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101116;color:#f4f4f7;font-family:-apple-system,Arial,sans-serif}
+header{padding:25px 20px;background:linear-gradient(135deg,#202c4b,#171923)}
+h1{margin:0;color:#8caaff;font-size:29px}
+header p{color:#b5b9c8}
+main{max-width:620px;margin:auto;padding:16px}
+.panel{background:#1a1c25;border:1px solid #303442;border-radius:18px;padding:18px;margin:12px 0}
+h2{font-size:21px}
+label{display:block;color:#c3c6d1;margin:14px 0 7px}
+input,button{font:inherit;width:100%;border-radius:11px;padding:14px}
+input{background:#101116;color:white;border:1px solid #414657}
+button{border:0;background:#6c8cff;color:#101116;font-weight:800;margin-top:12px}
+.suggestions{display:grid;gap:7px;margin-top:8px}
+.suggestion{background:#292d3b;color:white;border:1px solid #414657;text-align:left;margin:0}
+.status,.small{font-size:13px;color:#a9adbc;line-height:1.5}
+.result{font-size:23px;font-weight:900;color:#9bb3ff;margin:16px 0}
+.car-row{padding:10px 0;border-bottom:1px solid #333644}
+.car-row button{margin:0;background:transparent;color:white;text-align:left}
+.car-row small{display:block;color:#a9adbc}
+</style>
+</head>
+<body>
+<header>
+<h1>RMRP LIFE</h1>
+<p>Твой помощник в мире RMRP</p>
+</header>
+<main>
+<section class="panel">
+<h2>🚘 Калькулятор покупки</h2>
+<label for="car">Название автомобиля</label>
+<input id="car" autocomplete="off" placeholder="BMW M5 или БМВ М5">
+<div id="suggestions" class="suggestions"></div>
+<div id="carStatus" class="status">Начни вводить название автомобиля.</div>
+
+<label for="price">Цена продавца (вирты)</label>
+<input id="price" placeholder="Цена подставится при выборе машины">
+<div id="priceStatus" class="status">Если цены нет в каталоге, введи её вручную.</div>
+
+<label for="saved">Сколько у тебя сейчас (вирты)</label>
+<input id="saved" type="number" min="0" placeholder="Твои накопления">
+
+<label for="income">Доход за день (вирты)</label>
+<input id="income" type="number" min="0" placeholder="Сколько зарабатываешь">
+
+<button id="calc">Рассчитать накопления</button>
+<div id="result"></div>
+<p class="small">Цены ориентировочные. Уточняй цену у продавца на своём сервере.</p>
+</section>
+
+<section class="panel">
+<h2>🔎 Каталог автомобилей</h2>
+<input id="catalogSearch" placeholder="Поиск на русском или английском">
+<div id="catalog"></div>
+</section>
+</main>
+
+<script>
+const cars=[
+["БМВ M5","BMW M5;Бумер M5;BMW M 5",null],
+["БМВ M4 CSL","BMW M4 CSL;Бумер M4 CSL",null],
+["Mercedes E63 AMG","Мерседес E63 AMG;МБ Е63 AMG",null],
+["Ламба Центарио","Lamborghini Centenario;Ламборгини Центенарио",null],
+["Бугатте Верон","Bugatti Veyron;Бугатти Вейрон",null],
+["Бугатте Диво","Bugatti Divo;Бугатти Диво",null],
+["Ламба Урус","Lamborghini Urus;Ламборгини Урус",null],
+["Порше 911","Porsche 911;Поршак 911",null],
+["Ниса Сильвия C14","Nissan Silvia S14;Ниссан Сильвия","3,5kk"],
+["МБ Ц32 AMG","Mercedes C32 AMG;Мерседес Ц32 AMG","3,6kk"],
+["Тойода Корола ГР 2024","Toyota Corolla GR 2024;Тойота Королла GR","1,7kk"],
+["Фолькс Туарег P50","Volkswagen Touareg P50;Фольксваген Туарег","2,8kk"],
+["Маздыч MX-5","Mazda MX-5;Мазда MX5","1,7kk"],
+["Альфа-Кабрио","Alfa Cabrio;Альфа Кабрио","2,5kk"],
+["Ниса ГТР Нисмо P35","Nissan GT-R Nismo P35;Ниссан GTR Nismo","Донат набор"],
+["МБ ЦЛА ЕВ 2025","Mercedes CLA EV 2025;Мерседес CLA EV","2,5kk"],
+["Ровер Спорт Суперчарджер","Range Rover Sport Supercharged;Рендж Ровер Спорт","4,3kk"],
+["Шевик Тахо 2002","Chevrolet Tahoe 2002;Шевроле Тахо","2,3kk"],
+["Аудитор TT MK1","Audi TT MK1;Ауди ТТ","1,1kk"],
+["Тойода Чайзер","Toyota Chaser;Тойота Чайзер","2kk"],
+["Ранглер Рубик","Jeep Wrangler Rubicon;Джип Ранглер","1-2kk"],
+["Хэндэ Елантра 2022","Hyundai Elantra 2022;Хендай Элантра","Донат набор"],
+["Бумер Ешка 34","BMW E34;БМВ Е34;Бумер E34","800k"],
+["Волжанка 24","Volga 24;Волга 24","500k"],
+["Субарь Импреза 22B","Subaru Impreza 22B;Субару Импреза 22B","Донат набор"],
+["Пятнашка","ВАЗ 2115;VAZ 2115","325k"],
+["2108 Кабрио","ВАЗ 2108 Кабрио;Lada 2108 Cabrio","390k"],
+["Веста Кросс 4x4","Lada Vesta Cross 4x4;Лада Веста Кросс","555k"],
+["Ока","VAZ Oka;ВАЗ Ока","Бесценна"],
+["Поршак Кайман 718 ГТ 4 РС","Porsche Cayman 718 GT4 RS;Порше Кайман","650kk"],
+["Субарь Импреза BPX CTI","Subaru Impreza WRX STI;Субару Импреза STI","2,5kk"],
+["Субарь Импреза BPX 2022","Subaru Impreza WRX 2022;Субару Импреза 2022","3,5kk"],
+["Инфиник KX 80 Ларте","Infiniti QX80 Larte;Инфинити QX80","4,5kk"],
+["Бумер X5M Ф85","BMW X5M F85;БМВ X5M","5kk"],
+["Бугатте Сентодиечи","Bugatti Centodieci;Бугатти Сентодиечи","71kk"],
+["Инфиник Ку 60С","Infiniti Q60S;Инфинити Q60S","2,7kk"],
+["Хонд NSX 1992","Honda NSX 1992;Хонда NSX","45kk"],
+["Веста спорт ДПС","Lada Vesta Sport DPS;Веста спорт ДПС",null],
+["Тойода Камрюха 70 ГИБДД","Toyota Camry 70 police;Тойота Камри 70 ГИБДД",null],
+["Бумер M5 служебная","BMW M5 service;БМВ М5 служебная","5kk"],
+["Хвал Ф7 служебный","Haval F7 service;Хавал F7","2,1kk"],
+["Жига 2105","Lada 2105;ВАЗ 2105","100k"],
+["Жига 2106","Lada 2106;ВАЗ 2106;Жигули;Шестёрка",null],
+["Нивасик Урбан","Lada Niva Urban;Нива Урбан","350k"],
+["Восьмёрка Ретро","Lada 2108 Retro;Восьмёрка","350k"],
+["Четырка","ВАЗ 2114;Lada 2114;VAZ 2114",null],
+["Калина 1 Хэтч","Lada Kalina 1 hatchback;Калина 1",null],
+["Приора","Lada Priora;Лада Приора","777k"],
+["Калина 2 Хэтч","Lada Kalina 2 hatchback;Калина 2",null],
+["206 GTI","Peugeot 206 GTI;Пежо 206 GTI",null],
+["Двенашка Купе","ВАЗ 2112 Coupe;Lada 2112 Coupe","666k"],
+["Двенашка","ВАЗ 2112;Lada 2112","800k"],
+["Гранта Фейс Лифт 2018","Lada Granta facelift 2018;Гранта 2018","1,1kk"],
+["МБ Ешка 34","BMW E34;БМВ Е34","800k"]
+].map(([name,aliases,price])=>({name,aliases:aliases.split(";"),price}));
+
+function norm(s){
+ return String(s||"").toLowerCase().replace(/ё/g,"е").replace(/[^a-zа-я0-9]/g,"");
+}
+function translit(s){
+ const m={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"shch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};
+ return norm(s).split("").map(c=>m[c]||c).join("");
+}
+function searchCars(q){
+ const n=norm(q);
+ if(!n)return [];
+ return cars.map(c=>{
+  let score=0;
+  [c.name,...c.aliases].forEach(name=>{
+   const k=norm(name);
+   if(k===n||translit(k)===translit(n))score=Math.max(score,100);
+   else if(k.includes(n)||translit(k).includes(translit(n)))score=Math.max(score,70);
+   else if(n.includes(k)||translit(n).includes(translit(k)))score=Math.max(score,45);
+  });
+  return {car:c,score};
+ }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,8).map(x=>x.car);
+}
+function priceNumber(s){
+ if(!s)return NaN;
+ const x=String(s).toLowerCase().replace(/\s/g,"").replace(/,/g,".");
+ const m=x.match(/^([0-9.]+)(kk|k)?$/);
+ if(!m)return NaN;
+ return Number(m[1])*(m[2]==="kk"?1000000:m[2]==="k"?1000:1);
+}
+function fmt(n){return Math.round(n).toLocaleString("ru-RU")}
+const carInput=document.getElementById("car");
+const priceInput=document.getElementById("price");
+const suggestions=document.getElementById("suggestions");
+
+function selectCar(c){
+ carInput.value=c.name;
+ suggestions.innerHTML="";
+ document.getElementById("carStatus").textContent="Выбрана машина: "+c.name;
+ if(c.price && !/донат|бесценна/i.test(c.price)){
+  priceInput.value=c.price;
+  document.getElementById("priceStatus").textContent="Цена из списка. Можно изменить вручную.";
+ }else{
+  priceInput.value="";
+  document.getElementById("priceStatus").textContent="Цена отсутствует или не выражена числом. Введи цену продавца.";
+ }
+}
+function showMatches(q,target){
+ target.innerHTML="";
+ const found=searchCars(q);
+ found.forEach(c=>{
+  const b=document.createElement("button");
+  b.className="suggestion";
+  b.textContent=c.name+" — "+(c.price||"цена продавца");
+  b.onclick=()=>selectCar(c);
+  target.appendChild(b);
+ });
+ return found.length;
+}
+carInput.addEventListener("input",()=>{
+ const q=carInput.value.trim();
+ if(!q){suggestions.innerHTML="";return}
+ const count=showMatches(q,suggestions);
+ document.getElementById("carStatus").textContent=count?"Найдено вариантов: "+count+". Выбери машину.":"Не найдено — введи название и цену продавца вручную.";
+});
+document.getElementById("calc").onclick=()=>{
+ const p=priceNumber(priceInput.value);
+ const saved=Number(document.getElementById("saved").value)||0;
+ const income=Number(document.getElementById("income").value)||0;
+ const box=document.getElementById("result");
+ if(!carInput.value.trim()){box.innerHTML='<div class="result">Сначала введи название машины.</div>';return}
+ if(!Number.isFinite(p)||p<0){box.innerHTML='<div class="result">Введи числовую цену, например 3,5kk или 3500000.</div>';return}
+ const left=Math.max(0,p-saved);
+ box.innerHTML='<div class="result">Осталось: '+fmt(left)+' виртов</div>'+(left===0?'<p>🎉 На покупку уже хватает!</p>':income>0?'<p>Примерно '+Math.ceil(left/income)+' дней при таком доходе.</p>':'<p>Введи доход за день, чтобы рассчитать дни.</p>');
+};
+function renderCatalog(){
+ const q=document.getElementById("catalogSearch").value;
+ const el=document.getElementById("catalog");
+ el.innerHTML="";
+ (q?searchCars(q):cars).forEach(c=>{
+  const d=document.createElement("div");d.className="car-row";
+  const b=document.createElement("button");
+  b.textContent=c.name+" — "+(c.price||"цена продавца");
+  b.onclick=()=>{selectCar(c);window.scrollTo({top:0,behavior:"smooth"})};
+  const s=document.createElement("small");
+  s.textContent=c.price?"Цена из списка — ориентир":"Цену нужно ввести вручную";
+  d.append(b,s);el.append(d);
+ });
+}
+document.getElementById("catalogSearch").addEventListener("input",renderCatalog);
+renderCatalog();
+</script>
+</body>
+</html>
+
