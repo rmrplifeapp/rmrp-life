@@ -1,179 +1,45 @@
-<!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0c100d">
-<title>RMRP LIFE</title>
-<style>
-:root {
-  --bg: #0c100d;
-  --panel: #151c16;
-  --line: #2b382c;
-  --green: #a6ff4d;
-  --muted: #9aa99a;
-  --white: #f2f7f0;
-}
-* {
-  box-sizing: border-box;
-}
-body {
-  margin: 0;
-  background: radial-gradient(ellipse at top,#1b2a1a,#0c100d 58%);
-  color: var(--white);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-}
-main {
-  max-width: 570px;
-  margin: auto;
-  padding: 17px 15px 38px;
-}
-.top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 8px 2px 24px;
-}
-.logo {
-  font-weight: 950;
-  letter-spacing: 1px;
-  font-size: 20px;
-}
-.logo span {
-  color: var(--green);
-}
-.beta {
-  border: 1px solid #3d5b31;
-  color: var(--green);
-  font-size: 10px;
-  font-weight: 800;
-  padding: 7px 9px;
-  border-radius: 99px;
-  letter-spacing: 1px;
-}
-h1 {
-  font-size: 34px;
-  line-height: 1.02;
-  letter-spacing: -1px;
-  margin: 0 0 10px;
-}
-h1 span {
-  color: var(--green);
-}
-.muted {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.5;
-}
-.nav {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 7px;
-  margin: 22px 0 15px;
-}
-.nav button {
-  background: #182019;
-  border: 1px solid var(--line);
-  color: #b8c4b6;
-  border-radius: 12px;
-  padding: 12px 5px;
-  font-size: 12px;
-  font-weight: 800;
-}
-.nav button.active {
-  background: var(--green);
-  border-color: var(--green);
-  color: #10160d;
-}
-.panel {
-  background: linear-gradient(145deg,#19221a,#111612);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 17px;
-  margin: 12px 0;
-}
-.kicker {
-  font-size: 10px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
-  color: var(--green);
-  text-transform: uppercase;
-}
-.title {
-  font-size: 20px;
-  font-weight: 900;
-  margin: 8px 0;
-}
-.desc {
-  font-size: 13px;
-  color: #b6c2b4;
-  line-height: 1.5;
-}
-.field {
-  display: block;
-  margin: 13px 0;
-}
-.field span {
-  display: block;
-  color: #c7d1c5;
-  font-size: 12px;
-  margin-bottom: 7px;
-}
-.field input,
-.field select {
-  width: 100%;
-  background: #0b100c;
-  border: 1px solid #344235;
-  color: #f5f8f3;
-  padding: 13px;
-  border-radius: 11px;
-  font-size: 15px;
-}
-.grid2 {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-.btn {
-  width: 100%;
-  border: 0;
-  border-radius: 12px;
-  padding: 14px 12px;
-  font-size: 14px;
-  font-weight: 900;
-  cursor: pointer;
-}
-.primary {
-  background: var(--green);
-  color: #11170d;
-}
-.secondary {
-  background: #222d23;
-  color: #f4f8f2;
-  border: 1px solid #39463a;
-}
-.hidden {
-  display: none !important;
-}
-</style>
-</head>
-<body>
-<main>
-<div class="top">
-  <div class="logo">RMRP <span>LIFE</span></div>
-  <div class="beta">FAN PROJECT · BETA</div>
-</div>
+const jobDB = [
+  { name: "Водитель автобуса", pay: 290000 },
+  { name: "Рыбалка", pay: 920000 },
+  { name: "Мусоровоз", pay: 400000 },
+  { name: "Кладоискатель", pay: 300000 },
+  { name: "Дальнобойщик", pay: 270000 },
+  { name: "Курьер", pay: 220000 },
+  { name: "Инкассатор", pay: 100000 },
+  { name: "Мойщик улиц", pay: 229000 },
+  { name: "Грибник", pay: 200000 },
+  { name: "Курьер (вариант 2)", pay: 130000 }
+];
 
-<h1>ИГРАЙ С ЦЕЛЬЮ.<br>
-<span>КОПИ НА МЕЧТУ.</span></h1>
+function renderJobs() {
+  const input = document.getElementById("jobSearch");
+  const box = document.getElementById("jobResults");
+  const query = norm(input.value);
 
-<div class="muted">
-Помощник игрока RMRP: каталог машин, расчёт накоплений,
-заработок на работах и бонусы сообщества.
-</div>
+  if (!query) {
+    box.innerHTML =
+      "Введи название работы, чтобы увидеть заработок.";
+    return;
+  }
 
-<div class="nav">
-  <button class="active" onclick="tab('cars',this)">🚘 Гараж мечты</button>
-  <button onclick="tab('rewards',this)">🎁 Награды</button>
-  <button onclick="tab('base',this)">📍 RMRP-база</button>
-</div>
+  const results = jobDB.filter(job =>
+    norm(job.name).includes(query)
+  );
+
+  if (!results.length) {
+    box.textContent = "Работа не найдена.";
+    return;
+  }
+
+  box.innerHTML = results.map(job => `
+    <div class="job-row">
+      <div>
+        <div class="job-name">${esc(job.name)}</div>
+        <div class="mini">Примерный заработок за час</div>
+      </div>
+      <div class="job-pay">
+        ≈ ${job.pay.toLocaleString("ru-RU")} виртов/ч
+      </div>
+    </div>
+  `).join("");
+}
