@@ -1,215 +1,334 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RMRP LIFE</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#07150d">
+<title>RMRP LIFE | Тверской</title>
 <style>
+:root{--bg:#07150d;--card:#10251a;--card2:#173725;--green:#30ed82;--white:#f4fff7;--muted:#9db9a6;--line:#285139}
 *{box-sizing:border-box}
-body{margin:0;background:#101116;color:#f4f4f7;font-family:-apple-system,Arial,sans-serif}
-header{padding:25px 20px;background:linear-gradient(135deg,#202c4b,#171923)}
-h1{margin:0;color:#8caaff;font-size:29px}
-header p{color:#b5b9c8}
-main{max-width:620px;margin:auto;padding:16px}
-.panel{background:#1a1c25;border:1px solid #303442;border-radius:18px;padding:18px;margin:12px 0}
-h2{font-size:21px}
-label{display:block;color:#c3c6d1;margin:14px 0 7px}
-input,button{font:inherit;width:100%;border-radius:11px;padding:14px}
-input{background:#101116;color:white;border:1px solid #414657}
-button{border:0;background:#6c8cff;color:#101116;font-weight:800;margin-top:12px}
-.suggestions{display:grid;gap:7px;margin-top:8px}
-.suggestion{background:#292d3b;color:white;border:1px solid #414657;text-align:left;margin:0}
-.status,.small{font-size:13px;color:#a9adbc;line-height:1.5}
-.result{font-size:23px;font-weight:900;color:#9bb3ff;margin:16px 0}
-.car-row{padding:10px 0;border-bottom:1px solid #333644}
-.car-row button{margin:0;background:transparent;color:white;text-align:left}
-.car-row small{display:block;color:#a9adbc}
+body{margin:0;background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{max-width:650px;margin:auto;padding:18px 15px 100px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
+.brand{display:flex;align-items:center;gap:11px}
+.logo{width:45px;height:45px;background:var(--green);color:#062010;border-radius:14px;display:grid;place-items:center;font-size:25px;font-weight:1000}
+.brand h1{margin:0;font-size:19px;letter-spacing:1px}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.server{padding:8px 10px;border:1px solid #2c7749;background:#13331f;color:var(--green);border-radius:10px;font-size:11px;font-weight:900;text-align:center}
+.hero{padding:23px 20px;border-radius:21px;border:1px solid #286340;background:linear-gradient(140deg,#1b5632,#10311e 62%,#0b2013);margin-bottom:20px}
+.kicker{color:var(--green);font-size:10px;font-weight:900;letter-spacing:2px}
+.hero h2{font-size:30px;line-height:1.13;margin:12px 0}
+.hero p{font-size:13px;line-height:1.5;color:#c5dfcd;margin:0}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}
+.tag{background:#0b2415;border:1px solid #326746;border-radius:8px;padding:7px 9px;font-size:11px}
+.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:23px}
+.nav button{padding:11px 2px;background:#0c1e12;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:11px;font-weight:800}
+.nav button.active{background:#17452a;border-color:var(--green);color:var(--green)}
+.nav span{display:block;font-size:20px;margin-bottom:4px}
+.page{display:none}.page.active{display:block}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 13px}
+.heading h2{font-size:19px;margin:0}.heading small{font-size:10px;color:var(--green);font-weight:900}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
+.card h3{font-size:15px;margin:0 0 7px}
+.desc{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{font-size:22px;color:var(--green);font-weight:900;margin:9px 0 3px;overflow-wrap:anywhere}
+.stat-label{font-size:11px;color:var(--muted)}
+label{display:block;color:#c2d8c8;font-size:12px;margin:13px 0 6px}
+input,select{width:100%;min-width:0;background:#07170e;border:1px solid #31543b;border-radius:11px;color:var(--white);padding:13px;font-size:14px}
+input:focus,select:focus{outline:1px solid var(--green);border-color:var(--green)}
+input::placeholder{color:#688774}
+.btn{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:#052011;font-weight:900;margin-top:10px}
+.btn.alt{background:#173d26;color:var(--green);border:1px solid #326946}
+.btn.dark{background:#0b1c11;color:var(--white);border:1px solid var(--line)}
+.result{margin-top:12px;padding:13px;border:1px solid #326b45;background:#102d1b;border-radius:12px;font-size:13px;line-height:1.65;overflow-wrap:anywhere}
+.result strong{color:var(--green)}
+.progress{height:7px;background:#233b2a;border-radius:8px;margin-top:12px;overflow:hidden}
+.progress div{height:100%;width:0;background:var(--green)}
+.car-list{display:grid;gap:8px;margin-top:12px}
+.car{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;padding:12px;background:#0b1d11;color:var(--white);border:1px solid var(--line);border-radius:12px}
+.car b{font-size:13px}.car small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
+.car strong{color:var(--green);font-size:12px;text-align:right}
+.work{display:grid;grid-template-columns:minmax(0,1fr) 125px;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.work:last-child{border-bottom:0}
+.work b{font-size:13px}.work input{padding:10px}
+.note{font-size:11px;color:var(--muted);line-height:1.6;margin-top:12px}
+.reward-icon{font-size:22px;margin-bottom:10px}
+.hidden{display:none!important}
+footer{text-align:center;color:#66816e;font-size:10px;padding:22px 0}
+@media(min-width:500px){.app{padding-top:25px}.hero{padding:28px}.hero h2{font-size:35px}}
 </style>
 </head>
 <body>
+<div class="app">
 <header>
-<h1>RMRP LIFE</h1>
-<p>Твой помощник в мире RMRP</p>
+  <div class="brand"><div class="logo">R</div><div><h1>RMRP LIFE</h1><p>Твой помощник на Тверском</p></div></div>
+  <div class="server">● RMRP<br>ТВЕРСКОЙ</div>
 </header>
-<main>
-<section class="panel">
-<h2>🚘 Калькулятор покупки</h2>
-<label for="car">Название автомобиля</label>
-<input id="car" autocomplete="off" placeholder="BMW M5 или БМВ М5">
-<div id="suggestions" class="suggestions"></div>
-<div id="carStatus" class="status">Начни вводить название автомобиля.</div>
 
-<label for="price">Цена продавца (вирты)</label>
-<input id="price" placeholder="Цена подставится при выборе машины">
-<div id="priceStatus" class="status">Если цены нет в каталоге, введи её вручную.</div>
-
-<label for="saved">Сколько у тебя сейчас (вирты)</label>
-<input id="saved" type="number" min="0" placeholder="Твои накопления">
-
-<label for="income">Доход за день (вирты)</label>
-<input id="income" type="number" min="0" placeholder="Сколько зарабатываешь">
-
-<button id="calc">Рассчитать накопления</button>
-<div id="result"></div>
-<p class="small">Цены ориентировочные. Уточняй цену у продавца на своём сервере.</p>
+<section class="hero">
+  <div class="kicker">ИГРАЙ С УМОМ</div>
+  <h2>Твоя цель.<br>Твои правила.</h2>
+  <p>Узнавай цены машин, считай заработок и планируй покупки в одном приложении.</p>
+  <div class="tags"><span class="tag">🚘 Автомобили</span><span class="tag">💼 Работы</span><span class="tag">💰 Финансы</span></div>
 </section>
 
-<section class="panel">
-<h2>🔎 Каталог автомобилей</h2>
-<input id="catalogSearch" placeholder="Поиск на русском или английском">
-<div id="catalog"></div>
+<nav class="nav">
+<button class="active" data-page="home"><span>⌂</span>Главная</button>
+<button data-page="cars"><span>🚘</span>Автомобили</button>
+<button data-page="jobs"><span>💼</span>Работы</button>
+<button data-page="rewards"><span>🎁</span>Награды</button>
+</nav>
+
+<section class="page active" id="home">
+  <div class="heading"><h2>Твоя статистика</h2><small>ЛИЧНЫЙ КАБИНЕТ</small></div>
+  <div class="grid">
+    <div class="card"><div class="stat-label">Твои деньги</div><div class="stat" id="statMoney">0 ₽</div><div class="stat-label">Текущий баланс</div></div>
+    <div class="card"><div class="stat-label">Цена цели</div><div class="stat" id="statGoal">0 ₽</div><div class="stat-label">Твоя покупка</div></div>
+  </div>
+  <div class="card">
+    <h3>💰 Калькулятор накоплений</h3>
+    <p class="desc">Введи свои суммы — рассчитаем остаток и срок покупки.</p>
+    <label for="balance">Сколько денег сейчас</label><input id="balance" type="number" min="0" placeholder="Например, 500000">
+    <label for="target">Стоимость покупки</label><input id="target" type="number" min="0" placeholder="Например, 2500000">
+    <label for="income">Доход за игровой день</label><input id="income" type="number" min="0" placeholder="Например, 200000">
+    <button class="btn" id="calculate">Рассчитать</button>
+    <div class="result" id="calcResult">Введи данные, чтобы начать расчёт.</div>
+    <div class="progress"><div id="progress"></div></div>
+  </div>
+  <div class="card">
+    <h3>Быстрый переход</h3><p class="desc">Нужна машина или расчёт заработка? Открой нужный раздел.</p>
+    <button class="btn alt" data-go="cars">Найти автомобиль →</button>
+    <button class="btn dark" data-go="jobs">Рассчитать работу →</button>
+  </div>
 </section>
-</main>
+
+<section class="page" id="cars">
+  <div class="heading"><h2>Каталог машин</h2><small>ПОИСК ПО МОДЕЛИ</small></div>
+  <div class="card">
+    <p class="desc">Введи название машины. Выбери модель и укажи актуальную цену, если она неизвестна.</p>
+    <label for="carSearch">Название автомобиля</label><input id="carSearch" placeholder="BMW M5 или БМВ М5">
+    <div id="carList" class="car-list"><p class="desc">Начни вводить название.</p></div>
+    <div id="carBox" class="hidden">
+      <div class="result">
+        <strong id="carName"></strong>
+        <p class="desc" id="carRef"></p>
+        <label for="carPrice">Цена продавца, вирты</label><input id="carPrice" type="number" min="1" placeholder="Укажи цену">
+        <button class="btn" id="carToCalc">Рассчитать покупку</button>
+      </div>
+    </div>
+  </div>
+  <div class="note">Цены меняются на сервере. Если справочной цены нет, укажи цену, которую просит игрок. Неофициальный справочник.</div>
+</section>
+
+<section class="page" id="jobs">
+  <div class="heading"><h2>Работы и доход</h2><small>НАСТРОЙ ПОД СЕБЯ</small></div>
+  <div class="card">
+    <p class="desc">Укажи реальный заработок за смену. Начальные суммы ниже — примеры, их нужно заменить своими данными.</p>
+    <div id="jobsList"></div>
+    <button class="btn alt" id="addJob">＋ Добавить работу</button>
+  </div>
+  <div class="card">
+    <h3>Расчёт заработка</h3>
+    <label for="jobChoice">Работа</label><select id="jobChoice"></select>
+    <label for="shifts">Количество смен</label><input id="shifts" type="number" min="1" value="1">
+    <div class="result" id="jobResult"></div>
+    <button class="btn" id="jobToCalc">Подставить доход в калькулятор</button>
+  </div>
+  <div class="note">Доходы зависят от уровня персонажа, бонусов, времени и правил сервера. Это не официальные тарифы RMRP.</div>
+</section>
+
+<section class="page" id="rewards">
+  <div class="heading"><h2>Награды и заявки</h2><small>ПОЛЕЗНЫЕ ФУНКЦИИ</small></div>
+  <div class="card">
+    <div class="reward-icon">🎟️</div><h3>Промокод</h3><p class="desc">Подготовь текст с промокодом.</p>
+    <label for="promo">Промокод</label><input id="promo" placeholder="Введи промокод">
+    <button class="btn alt" id="promoBtn">Подготовить текст</button>
+  </div>
+  <div class="card">
+    <div class="reward-icon">👥</div><h3>Приглашение друга</h3>
+    <label for="friend">Ник друга</label><input id="friend" placeholder="Имя Фамилия">
+    <button class="btn alt" id="friendBtn">Подготовить текст</button>
+  </div>
+  <div class="card">
+    <div class="reward-icon">🪪</div><h3>Заявка игрока</h3>
+    <label for="nick">Игровой ник</label><input id="nick" placeholder="Имя Фамилия">
+    <label for="static">Static ID</label><input id="static" placeholder="ID персонажа">
+    <label for="requestType">Тип заявки</label>
+    <select id="requestType"><option>Вопрос по награде</option><option>Промокод</option><option>Приглашение друга</option><option>Другое</option></select>
+    <label for="details">Подробности</label><input id="details" placeholder="Что нужно указать">
+    <button class="btn" id="requestBtn">Создать заявку</button>
+  </div>
+  <div id="output" class="card hidden">
+    <h3>Текст готов</h3><div class="result" id="outputText" style="white-space:pre-wrap"></div>
+    <button class="btn alt" id="copyBtn">Скопировать</button>
+  </div>
+  <div class="note">Заявка формируется на устройстве. Для проверки подписки, выдачи наград или отправки администрации потребуется подключение к боту или серверу.</div>
+</section>
+<footer>RMRP LIFE · Неофициальный помощник · Тверской</footer>
+</div>
 
 <script>
+const $=id=>document.getElementById(id);
+const fmt=n=>Math.round(Number(n)||0).toLocaleString("ru-RU")+" ₽";
+const norm=s=>String(s||"").toLowerCase().replace(/ё/g,"е").replace(/[^a-zа-я0-9]/g,"");
+
+const pages=[...document.querySelectorAll(".page")];
+const nav=[...document.querySelectorAll(".nav button")];
+function openPage(id){
+  pages.forEach(p=>p.classList.toggle("active",p.id===id));
+  nav.forEach(b=>b.classList.toggle("active",b.dataset.page===id));
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+nav.forEach(b=>b.onclick=()=>openPage(b.dataset.page));
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>openPage(b.dataset.go));
+
+function calc(){
+  const balance=Math.max(0,Number($("balance").value)||0);
+  const target=Math.max(0,Number($("target").value)||0);
+  const income=Math.max(0,Number($("income").value)||0);
+  const left=Math.max(0,target-balance);
+  $("statMoney").textContent=fmt(balance);
+  $("statGoal").textContent=fmt(target);
+  let text=left===0?"<strong>Цель достигнута!</strong>":'Осталось: <strong>'+fmt(left)+'</strong>';
+  if(left>0&&income>0)text+="<br>Примерно игровых дней: <strong>"+Math.ceil(left/income)+"</strong>";
+  else if(left>0)text+="<br>Укажи доход за день для расчёта срока.";
+  $("calcResult").innerHTML=text;
+  $("progress").style.width=(target?Math.min(100,balance/target*100):0)+"%";
+}
+$("calculate").onclick=calc;
+["balance","target","income"].forEach(id=>$(id).addEventListener("input",calc));
+
+/* Добавляй в этот список реальные цены из каталога сервера.
+   null = справочной цены нет, пользователь вводит её вручную. */
 const cars=[
-["БМВ M5","BMW M5;Бумер M5;BMW M 5",null],
-["БМВ M4 CSL","BMW M4 CSL;Бумер M4 CSL",null],
-["Mercedes E63 AMG","Мерседес E63 AMG;МБ Е63 AMG",null],
-["Ламба Центарио","Lamborghini Centenario;Ламборгини Центенарио",null],
-["Бугатте Верон","Bugatti Veyron;Бугатти Вейрон",null],
-["Бугатте Диво","Bugatti Divo;Бугатти Диво",null],
-["Ламба Урус","Lamborghini Urus;Ламборгини Урус",null],
-["Порше 911","Porsche 911;Поршак 911",null],
-["Ниса Сильвия C14","Nissan Silvia S14;Ниссан Сильвия","3,5kk"],
-["МБ Ц32 AMG","Mercedes C32 AMG;Мерседес Ц32 AMG","3,6kk"],
-["Тойода Корола ГР 2024","Toyota Corolla GR 2024;Тойота Королла GR","1,7kk"],
-["Фолькс Туарег P50","Volkswagen Touareg P50;Фольксваген Туарег","2,8kk"],
-["Маздыч MX-5","Mazda MX-5;Мазда MX5","1,7kk"],
-["Альфа-Кабрио","Alfa Cabrio;Альфа Кабрио","2,5kk"],
-["Ниса ГТР Нисмо P35","Nissan GT-R Nismo P35;Ниссан GTR Nismo","Донат набор"],
-["МБ ЦЛА ЕВ 2025","Mercedes CLA EV 2025;Мерседес CLA EV","2,5kk"],
-["Ровер Спорт Суперчарджер","Range Rover Sport Supercharged;Рендж Ровер Спорт","4,3kk"],
-["Шевик Тахо 2002","Chevrolet Tahoe 2002;Шевроле Тахо","2,3kk"],
-["Аудитор TT MK1","Audi TT MK1;Ауди ТТ","1,1kk"],
-["Тойода Чайзер","Toyota Chaser;Тойота Чайзер","2kk"],
-["Ранглер Рубик","Jeep Wrangler Rubicon;Джип Ранглер","1-2kk"],
-["Хэндэ Елантра 2022","Hyundai Elantra 2022;Хендай Элантра","Донат набор"],
-["Бумер Ешка 34","BMW E34;БМВ Е34;Бумер E34","800k"],
-["Волжанка 24","Volga 24;Волга 24","500k"],
-["Субарь Импреза 22B","Subaru Impreza 22B;Субару Импреза 22B","Донат набор"],
-["Пятнашка","ВАЗ 2115;VAZ 2115","325k"],
-["2108 Кабрио","ВАЗ 2108 Кабрио;Lada 2108 Cabrio","390k"],
-["Веста Кросс 4x4","Lada Vesta Cross 4x4;Лада Веста Кросс","555k"],
-["Ока","VAZ Oka;ВАЗ Ока","Бесценна"],
-["Поршак Кайман 718 ГТ 4 РС","Porsche Cayman 718 GT4 RS;Порше Кайман","650kk"],
-["Субарь Импреза BPX CTI","Subaru Impreza WRX STI;Субару Импреза STI","2,5kk"],
-["Субарь Импреза BPX 2022","Subaru Impreza WRX 2022;Субару Импреза 2022","3,5kk"],
-["Инфиник KX 80 Ларте","Infiniti QX80 Larte;Инфинити QX80","4,5kk"],
-["Бумер X5M Ф85","BMW X5M F85;БМВ X5M","5kk"],
-["Бугатте Сентодиечи","Bugatti Centodieci;Бугатти Сентодиечи","71kk"],
-["Инфиник Ку 60С","Infiniti Q60S;Инфинити Q60S","2,7kk"],
-["Хонд NSX 1992","Honda NSX 1992;Хонда NSX","45kk"],
-["Веста спорт ДПС","Lada Vesta Sport DPS;Веста спорт ДПС",null],
-["Тойода Камрюха 70 ГИБДД","Toyota Camry 70 police;Тойота Камри 70 ГИБДД",null],
-["Бумер M5 служебная","BMW M5 service;БМВ М5 служебная","5kk"],
-["Хвал Ф7 служебный","Haval F7 service;Хавал F7","2,1kk"],
-["Жига 2105","Lada 2105;ВАЗ 2105","100k"],
-["Жига 2106","Lada 2106;ВАЗ 2106;Жигули;Шестёрка",null],
-["Нивасик Урбан","Lada Niva Urban;Нива Урбан","350k"],
-["Восьмёрка Ретро","Lada 2108 Retro;Восьмёрка","350k"],
-["Четырка","ВАЗ 2114;Lada 2114;VAZ 2114",null],
-["Калина 1 Хэтч","Lada Kalina 1 hatchback;Калина 1",null],
-["Приора","Lada Priora;Лада Приора","777k"],
-["Калина 2 Хэтч","Lada Kalina 2 hatchback;Калина 2",null],
-["206 GTI","Peugeot 206 GTI;Пежо 206 GTI",null],
-["Двенашка Купе","ВАЗ 2112 Coupe;Lada 2112 Coupe","666k"],
-["Двенашка","ВАЗ 2112;Lada 2112","800k"],
-["Гранта Фейс Лифт 2018","Lada Granta facelift 2018;Гранта 2018","1,1kk"],
-["МБ Ешка 34","BMW E34;БМВ Е34","800k"]
-].map(([name,aliases,price])=>({name,aliases:aliases.split(";"),price}));
-
-function norm(s){
- return String(s||"").toLowerCase().replace(/ё/g,"е").replace(/[^a-zа-я0-9]/g,"");
-}
-function translit(s){
- const m={а:"a",б:"b",в:"v",г:"g",д:"d",е:"e",ё:"e",ж:"zh",з:"z",и:"i",й:"y",к:"k",л:"l",м:"m",н:"n",о:"o",п:"p",р:"r",с:"s",т:"t",у:"u",ф:"f",х:"h",ц:"c",ч:"ch",ш:"sh",щ:"shch",ъ:"",ы:"y",ь:"",э:"e",ю:"yu",я:"ya"};
- return norm(s).split("").map(c=>m[c]||c).join("");
-}
-function searchCars(q){
- const n=norm(q);
- if(!n)return [];
- return cars.map(c=>{
-  let score=0;
-  [c.name,...c.aliases].forEach(name=>{
-   const k=norm(name);
-   if(k===n||translit(k)===translit(n))score=Math.max(score,100);
-   else if(k.includes(n)||translit(k).includes(translit(n)))score=Math.max(score,70);
-   else if(n.includes(k)||translit(n).includes(translit(k)))score=Math.max(score,45);
+{name:"Audi RS6 GT",aliases:["ауди рс6 гт","rs6 gt"],price:40000000},
+{name:"BMW M4 CSL",aliases:["бмв м4 цсл","m4 csl"],price:28000000},
+{name:"BMW M5",aliases:["бмв м5"],price:null},
+{name:"BMW M8",aliases:["бмв м8"],price:null},
+{name:"Audi RS7",aliases:["ауди рс7"],price:null},
+{name:"Audi R8",aliases:["ауди р8"],price:null},
+{name:"Nissan GT-R",aliases:["ниссан гтр","гтр"],price:null},
+{name:"Mercedes-Benz E63",aliases:["мерседес е63","мерс е63"],price:null},
+{name:"Mercedes-Benz G63",aliases:["гелик","мерседес г63"],price:null},
+{name:"Mercedes-Benz S-Class",aliases:["мерседес s класс","эс класс"],price:null},
+{name:"Porsche 911",aliases:["порше 911","порш 911"],price:null},
+{name:"Porsche Cayenne",aliases:["порше кайен","кайен"],price:null},
+{name:"Lamborghini Aventador",aliases:["ламборгини авентадор","авентадор"],price:null},
+{name:"Lamborghini Huracan",aliases:["ламборгини уракан","уракан"],price:null},
+{name:"Ferrari F8",aliases:["феррари ф8"],price:null},
+{name:"Toyota Supra",aliases:["тойота супра","супра"],price:null},
+{name:"Toyota Camry",aliases:["тойота камри","камри"],price:null},
+{name:"Dodge Charger",aliases:["додж чарджер","чарджер"],price:null},
+{name:"Ford Mustang",aliases:["форд мустанг","мустанг"],price:null},
+{name:"Chevrolet Camaro",aliases:["шевроле камаро","камаро"],price:null},
+{name:"Volkswagen Golf",aliases:["фольксваген гольф","гольф"],price:null},
+{name:"Lada 2106",aliases:["ваз 2106","жигули","шестерка","шестёрка"],price:null},
+{name:"Lada 2107",aliases:["ваз 2107","семерка","семёрка"],price:null},
+{name:"Lada Priora",aliases:["лада приора","приора"],price:null},
+{name:"Lada Vesta",aliases:["лада веста","веста"],price:null},
+{name:"Toyota Land Cruiser",aliases:["крузак","ленд крузер"],price:null},
+{name:"Range Rover",aliases:["рендж ровер","рэндж ровер"],price:null},
+{name:"Tesla Model S",aliases:["тесла модель с"],price:null}
+];
+let selected=null;
+function renderCars(){
+  const q=norm($("carSearch").value);
+  const list=$("carList");list.innerHTML="";$("carBox").classList.add("hidden");
+  if(!q){list.innerHTML='<p class="desc">Начни вводить название автомобиля.</p>';return}
+  const found=cars.filter(c=>norm(c.name).includes(q)||c.aliases.some(a=>norm(a).includes(q))).slice(0,10);
+  if(!found.length){
+    list.innerHTML='<p class="desc">Модели нет в каталоге. Можно добавить её вручную.</p>';
+    const b=document.createElement("button");b.className="btn alt";b.textContent="Добавить модель";
+    b.onclick=()=>selectCar({name:$("carSearch").value.trim(),price:null});
+    list.appendChild(b);return;
+  }
+  found.forEach(c=>{
+    const b=document.createElement("button");b.className="car";
+    const left=document.createElement("span");
+    const name=document.createElement("b");name.textContent=c.name;
+    const small=document.createElement("small");small.textContent=c.price===null?"Цена не указана":"Справочная цена";
+    left.append(name,small);
+    const price=document.createElement("strong");price.textContent=c.price===null?"Ввести цену":fmt(c.price);
+    b.append(left,price);b.onclick=()=>selectCar(c);list.appendChild(b);
   });
-  return {car:c,score};
- }).filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,8).map(x=>x.car);
 }
-function priceNumber(s){
- if(!s)return NaN;
- const x=String(s).toLowerCase().replace(/\s/g,"").replace(/,/g,".");
- const m=x.match(/^([0-9.]+)(kk|k)?$/);
- if(!m)return NaN;
- return Number(m[1])*(m[2]==="kk"?1000000:m[2]==="k"?1000:1);
-}
-function fmt(n){return Math.round(n).toLocaleString("ru-RU")}
-const carInput=document.getElementById("car");
-const priceInput=document.getElementById("price");
-const suggestions=document.getElementById("suggestions");
-
 function selectCar(c){
- carInput.value=c.name;
- suggestions.innerHTML="";
- document.getElementById("carStatus").textContent="Выбрана машина: "+c.name;
- if(c.price && !/донат|бесценна/i.test(c.price)){
-  priceInput.value=c.price;
-  document.getElementById("priceStatus").textContent="Цена из списка. Можно изменить вручную.";
- }else{
-  priceInput.value="";
-  document.getElementById("priceStatus").textContent="Цена отсутствует или не выражена числом. Введи цену продавца.";
- }
+  selected=c;$("carName").textContent=c.name;
+  $("carRef").textContent=c.price===null?"Введи сумму, которую просит продавец.":"Справочная цена: "+fmt(c.price)+". Её можно изменить.";
+  $("carPrice").value=c.price===null?"":c.price;$("carBox").classList.remove("hidden");
 }
-function showMatches(q,target){
- target.innerHTML="";
- const found=searchCars(q);
- found.forEach(c=>{
-  const b=document.createElement("button");
-  b.className="suggestion";
-  b.textContent=c.name+" — "+(c.price||"цена продавца");
-  b.onclick=()=>selectCar(c);
-  target.appendChild(b);
- });
- return found.length;
-}
-carInput.addEventListener("input",()=>{
- const q=carInput.value.trim();
- if(!q){suggestions.innerHTML="";return}
- const count=showMatches(q,suggestions);
- document.getElementById("carStatus").textContent=count?"Найдено вариантов: "+count+". Выбери машину.":"Не найдено — введи название и цену продавца вручную.";
-});
-document.getElementById("calc").onclick=()=>{
- const p=priceNumber(priceInput.value);
- const saved=Number(document.getElementById("saved").value)||0;
- const income=Number(document.getElementById("income").value)||0;
- const box=document.getElementById("result");
- if(!carInput.value.trim()){box.innerHTML='<div class="result">Сначала введи название машины.</div>';return}
- if(!Number.isFinite(p)||p<0){box.innerHTML='<div class="result">Введи числовую цену, например 3,5kk или 3500000.</div>';return}
- const left=Math.max(0,p-saved);
- box.innerHTML='<div class="result">Осталось: '+fmt(left)+' виртов</div>'+(left===0?'<p>🎉 На покупку уже хватает!</p>':income>0?'<p>Примерно '+Math.ceil(left/income)+' дней при таком доходе.</p>':'<p>Введи доход за день, чтобы рассчитать дни.</p>');
+$("carSearch").addEventListener("input",renderCars);
+$("carToCalc").onclick=()=>{
+  const price=Number($("carPrice").value);
+  if(!selected||!Number.isFinite(price)||price<=0){alert("Укажи цену больше нуля.");return}
+  $("target").value=price;calc();openPage("home");
 };
-function renderCatalog(){
- const q=document.getElementById("catalogSearch").value;
- const el=document.getElementById("catalog");
- el.innerHTML="";
- (q?searchCars(q):cars).forEach(c=>{
-  const d=document.createElement("div");d.className="car-row";
-  const b=document.createElement("button");
-  b.textContent=c.name+" — "+(c.price||"цена продавца");
-  b.onclick=()=>{selectCar(c);window.scrollTo({top:0,behavior:"smooth"})};
-  const s=document.createElement("small");
-  s.textContent=c.price?"Цена из списка — ориентир":"Цену нужно ввести вручную";
-  d.append(b,s);el.append(d);
- });
+
+let jobs=[
+{name:"Добыча ресурсов",income:200000},
+{name:"Работа водителем",income:350000},
+{name:"Другая работа",income:500000}
+];
+function renderJobs(){
+  $("jobsList").innerHTML="";$("jobChoice").innerHTML="";
+  jobs.forEach((j,i)=>{
+    const row=document.createElement("div");row.className="work";
+    const label=document.createElement("b");label.textContent=j.name;
+    const input=document.createElement("input");input.type="number";input.min="0";input.value=j.income;
+    input.setAttribute("aria-label","Доход: "+j.name);
+    input.oninput=()=>{jobs[i].income=Math.max(0,Number(input.value)||0);updateJob()};
+    row.append(label,input);$("jobsList").appendChild(row);
+    const opt=document.createElement("option");opt.value=i;opt.textContent=j.name;$("jobChoice").appendChild(opt);
+  });updateJob();
 }
-document.getElementById("catalogSearch").addEventListener("input",renderCatalog);
-renderCatalog();
+function updateJob(){
+  const j=jobs[Number($("jobChoice").value)||0];if(!j)return;
+  const shifts=Math.max(1,Number($("shifts").value)||1);
+  $("jobResult").innerHTML="За смену: <strong>"+fmt(j.income)+"</strong><br>За "+shifts+" смен(ы): <strong>"+fmt(j.income*shifts)+"</strong>";
+}
+$("jobChoice").onchange=updateJob;$("shifts").oninput=updateJob;
+$("addJob").onclick=()=>{
+  const name=prompt("Название работы:");
+  if(!name||!name.trim())return;
+  const income=Number(prompt("Заработок за смену в рублях:","0"));
+  if(!Number.isFinite(income)||income<0){alert("Укажи корректную сумму.");return}
+  jobs.push({name:name.trim(),income});renderJobs();
+};
+$("jobToCalc").onclick=()=>{
+  const j=jobs[Number($("jobChoice").value)||0];if(!j)return;
+  $("income").value=j.income;calc();openPage("home");
+};
+
+let request="";
+function output(text){
+  request=text;$("outputText").textContent=text;$("output").classList.remove("hidden");
+}
+$("promoBtn").onclick=()=>{
+  const p=$("promo").value.trim();if(!p){alert("Введи промокод.");return}
+  output("Промокод RMRP\nПромокод: "+p);
+};
+$("friendBtn").onclick=()=>{
+  const f=$("friend").value.trim();if(!f){alert("Введи ник друга.");return}
+  output("Приглашение друга\nНик игрока: "+f);
+};
+$("requestBtn").onclick=()=>{
+  const nick=$("nick").value.trim(),id=$("static").value.trim();
+  if(!nick||!id){alert("Заполни игровой ник и Static ID.");return}
+  output("Заявка RMRP LIFE\nНик: "+nick+"\nStatic ID: "+id+"\nТип: "+$("requestType").value+"\nПодробности: "+$("details").value.trim());
+};
+$("copyBtn").onclick=async()=>{
+  try{await navigator.clipboard.writeText(request);alert("Скопировано.")}
+  catch(e){
+    const t=document.createElement("textarea");t.value=request;document.body.appendChild(t);t.select();
+    const ok=document.execCommand("copy");t.remove();alert(ok?"Скопировано.":"Скопируй текст вручную.");
+  }
+};
+renderCars();renderJobs();calc();
 </script>
 </body>
 </html>
-
-
