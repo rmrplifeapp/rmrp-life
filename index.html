@@ -1,24 +1,331 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c100d">
+<title>RMRP LIFE</title>
+<style>
+:root{
+  --bg:#0c100d;
+  --panel:#151c16;
+  --line:#2b382c;
+  --green:#a6ff4d;
+  --muted:#9aa99a;
+  --white:#f2f7f0
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:radial-gradient(ellipse at top,#1b2a1a,#0c100d 58%);
+  color:var(--white);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+}
+main{max-width:570px;margin:auto;padding:17px 15px 38px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:8px 2px 24px}
+.logo{font-weight:950;letter-spacing:1px;font-size:20px}
+.logo span{color:var(--green)}
+.beta{border:1px solid #3d5b31;color:var(--green);font-size:10px;font-weight:800;padding:7px 9px;border-radius:99px;letter-spacing:1px}
+h1{font-size:34px;line-height:1.02;letter-spacing:-1px;margin:0 0 10px}
+h1 span{color:var(--green)}
+.muted{color:var(--muted);font-size:13px;line-height:1.5}
+.nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:22px 0 15px}
+.nav button{min-width:0;overflow-wrap:anywhere;background:#182019;border:1px solid var(--line);color:#b8c4b6;border-radius:12px;padding:11px 2px;font-size:11px;font-weight:800}
+.nav button.active{background:var(--green);border-color:var(--green);color:#10160d}
+.panel{background:linear-gradient(145deg,#19221a,#111612);border:1px solid var(--line);border-radius:20px;padding:17px;margin:12px 0}
+.kicker{font-size:10px;font-weight:900;letter-spacing:1.5px;color:var(--green);text-transform:uppercase}
+.title{font-size:20px;font-weight:900;margin:8px 0}
+.desc{font-size:13px;color:#b6c2b4;line-height:1.5}
+.field{display:block;margin:13px 0}
+.field span{display:block;color:#c7d1c5;font-size:12px;margin-bottom:7px}
+.field input,.field select{width:100%;background:#0b100c;border:1px solid #344235;color:#f5f8f3;padding:13px;border-radius:11px;font-size:15px;outline:none}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{width:100%;border:0;border-radius:12px;padding:14px 12px;font-size:14px;font-weight:900;cursor:pointer}
+.primary{background:var(--green);color:#11170d}
+.secondary{background:#222d23;color:#f4f8f2;border:1px solid #39463a}
+.result{background:#0d140e;border:1px solid #344434;border-radius:15px;padding:14px;margin-top:14px}
+.result strong{display:block;font-size:27px;color:var(--green);margin:4px 0}
+.result small{color:var(--muted);font-size:12px}
+.note{font-size:11px;line-height:1.5;color:#849282;margin:12px 2px}
+.check{display:flex;gap:10px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #2a352b;font-size:13px;line-height:1.45}
+.check:last-of-type{border:0}
+.check input{accent-color:var(--green);width:18px;height:18px;margin:0;flex-shrink:0}
+.badge{display:inline-block;border:1px solid #3b4a3b;background:#202a21;color:#d9e5d7;padding:6px 8px;border-radius:99px;font-size:10px;margin:5px 4px 0 0}
+.hidden{display:none!important}
+.status{font-size:12px;color:var(--green);min-height:18px;margin-top:9px}
+.activity{padding:12px 0;border-bottom:1px solid #2a352b}
+.activity:last-child{border:0}
+.activity b{display:block;font-size:14px;margin-bottom:4px}
+.activity p{font-size:12px;color:var(--muted);margin:0;line-height:1.5}
+.data-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.data-table th,.data-table td{text-align:left;padding:9px 6px;border-bottom:1px solid #2a352b}
+.data-table th{color:var(--green);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.data-table td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.warning{background:#241f12;border:1px solid #5a4821;color:#e7d5a2;border-radius:12px;padding:11px;font-size:11px;line-height:1.5;margin-top:12px}
+.mini{font-size:11px;color:var(--muted)}
+a{color:var(--green)}
+.job-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #2a352b}
+.job-row:last-child{border:0}
+.job-pay{font-size:17px;font-weight:900;color:var(--green);white-space:nowrap}
+.job-name{font-weight:800;font-size:13px}
+.footer{font-size:10px;line-height:1.5;color:#6f7c6d;margin:20px 2px}
+</style>
+</head>
+<body>
+<main>
+<div class="top">
+  <div class="logo">RMRP <span>LIFE</span></div>
+  <div class="beta">FAN PROJECT · BETA</div>
+</div>
+
+<h1>ИГРАЙ С ЦЕЛЬЮ.<br><span>КОПИ НА МЕЧТУ.</span></h1>
+<div class="muted">
+Помощник игрока RMRP: расчёт накоплений, награды сообщества и база игровых активностей. Цены на рынке игроков индивидуальны. Неофициальный фан-проект.
+</div>
+
+<div class="nav">
+  <button class="active" onclick="tab('cars',this)">🚘 Авто</button>
+  <button onclick="tab('jobs',this)">💼 Работы</button>
+  <button onclick="tab('rewards',this)">🎁 Награды</button>
+  <button onclick="tab('base',this)">📍 База</button>
+</div>
+
+<section id="cars">
+<div class="panel">
+  <div class="kicker">Калькулятор накоплений</div>
+  <div class="title">Сколько осталось до машины?</div>
+  <div class="desc">
+    Цены в базе приблизительные (≈). Если цены нет, её устанавливает игрок или сервер. Ты можешь изменить цену вручную и использовать калькулятор накоплений.
+  </div>
+
+  <label class="field">
+    <span>Найди машину — можно по-русски или по-английски</span>
+    <input id="car" list="carOptions" autocomplete="off"
+      placeholder="Например: BMW M5 / БМВ М5" oninput="findCar()">
+    <datalist id="carOptions"></datalist>
+  </label>
+
+  <div class="result" id="carLookup">
+    <small>Поиск автомобиля</small>
+    <div class="desc">Начни вводить название.</div>
+  </div>
+
+  <label class="field">
+    <span>Цена, которую просит игрок (вирты)</span>
+    <input id="carPrice" type="number" min="0" placeholder="Например: 2500000">
+  </label>
+
+  <div class="grid2">
+    <label class="field">
+      <span>Уже накоплено (вирты)</span>
+      <input id="saved" type="number" min="0" placeholder="Твои накопления">
+    </label>
+    <label class="field">
+      <span>Сервер</span>
+      <select id="server">
+        <option>Тверской</option>
+        <option>Патрики</option>
+        <option>Арбат</option>
+        <option>Рублёвка</option>
+      </select>
+    </label>
+  </div>
+
+  <button class="btn primary" onclick="calculate()">Рассчитать накопления</button>
+  <div id="calcResult" class="result">
+    <small>Твой расчёт появится здесь</small>
+  </div>
+</div>
+</section>
+
+<!-- РАБОТЫ -->
+<section id="jobs" class="hidden">
+  <div class="panel">
+    <div class="kicker">Заработок</div>
+    <div class="title">Найди подходящую работу</div>
+    <div class="desc">
+      Введи название работы — примерный заработок за час появится ниже.
+      Значения ориентировочные и могут отличаться на сервере.
+    </div>
+
+    <label class="field">
+      <span>Название работы</span>
+      <input id="jobSearch" type="search"
+        placeholder="Например: рыбалка"
+        autocomplete="off"
+        oninput="renderJobs()">
+    </label>
+
+    <div id="jobResults" class="result">
+      <small>Введи название работы для поиска.</small>
+    </div>
+  </div>
+</section>
+
+<!-- НАГРАДЫ -->
+<section id="rewards" class="hidden">
+  <div class="panel">
+    <div class="kicker">Бонус сообщества</div>
+    <div class="title">Получи награду за подписку</div>
+    <div class="desc">
+      Выполни условия ниже, чтобы запросить бонус.
+    </div>
+
+    <div class="check">
+      <input type="checkbox" id="reward1">
+      <label for="reward1">Подпишись на мой YouTube-канал.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="reward2">
+      <label for="reward2">Сделай скриншот подписки.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="reward3">
+      <label for="reward3">Введи промокод <b>TKS</b> в игре.</label>
+    </div>
+    <div class="check">
+      <input type="checkbox" id="reward4">
+      <label for="reward4">Сделай скриншот введённого промокода.</label>
+    </div>
+
+    <div class="warning">
+      Чтобы получить бонус, отправь оба скриншота мне в личные сообщения Telegram.
+      Награда предоставляется по правилам автора и сервера.
+    </div>
+
+    <p>
+      <a href="https://t.me/KirillHugo45" target="_blank" rel="noopener">
+        Написать в Telegram @KirillHugo45
+      </a>
+    </p>
+  </div>
+</section>
+
+<!-- БАЗА RMRP -->
+<section id="base" class="hidden">
+  <div class="panel">
+    <div class="kicker">Полезная информация</div>
+    <div class="title">База игрока RMRP</div>
+    <div class="desc">
+      Подсказки для планирования игрового времени и накоплений.
+      Доходы и правила могут меняться после обновлений сервера.
+    </div>
+
+    <div class="activity">
+      <b>Работы и заработок</b>
+      <p>
+        Сравни примерный доход в разделе «Работы».
+        Реальный заработок зависит от времени, маршрута и игровых условий.
+      </p>
+    </div>
+
+    <div class="activity">
+      <b>Покупка автомобиля</b>
+      <p>
+        Проверяй несколько предложений на сервере перед покупкой.
+        Цена в каталоге — ориентир, а не гарантия сделки.
+      </p>
+    </div>
+
+    <div class="activity">
+      <b>План накоплений</b>
+      <p>
+        Укажи цену машины и уже накопленную сумму в разделе «Авто»,
+        чтобы рассчитать, сколько ещё нужно заработать.
+      </p>
+    </div>
+
+    <div class="activity">
+      <b>Проверяй обновления</b>
+      <p>
+        Игровые цены, работы и условия могут измениться.
+        Сверяй информацию с актуальными объявлениями и правилами сервера.
+      </p>
+    </div>
+  </div>
+</section>
+<div class="footer">
+  RMRP LIFE — неофициальный фан-проект. Не связан с администрацией RMRP.
+  Указанные цены и доходы являются ориентировочными.
+</div>
+<script>
+"use strict";
+
+/* ===== РАБОТЫ И ЗАРАБОТОК ===== */
 const jobDB = [
-  { name: "Водитель автобуса", pay: 290000 },
-  { name: "Рыбалка", pay: 920000 },
-  { name: "Мусоровоз", pay: 400000 },
-  { name: "Кладоискатель", pay: 300000 },
-  { name: "Дальнобойщик", pay: 270000 },
-  { name: "Курьер", pay: 220000 },
-  { name: "Инкассатор", pay: 100000 },
-  { name: "Мойщик улиц", pay: 229000 },
-  { name: "Грибник", pay: 200000 },
-  { name: "Курьер (вариант 2)", pay: 130000 }
+  {name:"Водитель автобуса", pay:290000},
+  {name:"Рыбалка", pay:920000},
+  {name:"Мусоровоз", pay:400000},
+  {name:"Кладоискатель", pay:300000},
+  {name:"Дальнобойщик", pay:270000},
+  {name:"Курьер", pay:220000},
+  {name:"Инкассатор", pay:100000},
+  {name:"Мойщик улиц", pay:229000},
+  {name:"Грибник", pay:200000},
+  {name:"Курьер (вариант 2)", pay:130000}
 ];
 
+/* ===== МАШИНЫ: ПРИМЕРЫ ===== */
+const carDB = [
+  {name:"BMW M5", price:23500000},
+  {name:"Bugatti Veyron", price:250000000},
+  {name:"Lamborghini Revuelto", price:165000000},
+  {name:"Porsche 918 Spyder", price:73000000},
+  {name:"Ока", price:null, special:"Бесценна"}
+];
+
+/* ===== БЕЗОПАСНЫЙ ВЫВОД ТЕКСТА ===== */
+function esc(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;",
+    "<":"&lt;",
+    ">":"&gt;",
+    '"':"&quot;",
+    "'":"&#39;"
+  })[char]);
+}
+
+function norm(value) {
+  return String(value || "")
+    .toLocaleLowerCase("ru")
+    .replace(/ё/g, "е")
+    .trim();
+}
+
+function money(value) {
+  return Number(value).toLocaleString("ru-RU");
+}
+
+/* ===== ПЕРЕКЛЮЧЕНИЕ ВКЛАДОК ===== */
+function tab(id, button) {
+  const allowed = ["cars", "jobs", "rewards", "base"];
+  if (!allowed.includes(id)) return;
+
+  allowed.forEach(name => {
+    const section = document.getElementById(name);
+    if (section) {
+      section.classList.toggle("hidden", name !== id);
+    }
+  });
+
+  document.querySelectorAll(".nav button").forEach(btn => {
+    btn.classList.toggle("active", btn === button);
+  });
+
+  if (id === "jobs") renderJobs();
+}
+
+/* ===== ПОИСК РАБОТ ===== */
 function renderJobs() {
   const input = document.getElementById("jobSearch");
   const box = document.getElementById("jobResults");
+  if (!input || !box) return;
+
   const query = norm(input.value);
 
   if (!query) {
     box.innerHTML =
-      "Введи название работы, чтобы увидеть заработок.";
+      "<small>Введи название работы для поиска.</small>";
     return;
   }
 
@@ -27,7 +334,8 @@ function renderJobs() {
   );
 
   if (!results.length) {
-    box.textContent = "Работа не найдена.";
+    box.innerHTML =
+      "<div class='desc'>Работа не найдена. Попробуй другое название.</div>";
     return;
   }
 
@@ -38,8 +346,117 @@ function renderJobs() {
         <div class="mini">Примерный заработок за час</div>
       </div>
       <div class="job-pay">
-        ≈ ${job.pay.toLocaleString("ru-RU")} виртов/ч
+        ≈ ${money(job.pay)} виртов/ч
       </div>
     </div>
   `).join("");
 }
+
+/* ===== ПОИСК МАШИН ===== */
+function findCar() {
+  const input = document.getElementById("car");
+  const box = document.getElementById("carLookup");
+  const options = document.getElementById("carOptions");
+  if (!input || !box) return;
+
+  const query = norm(input.value);
+
+  if (options) {
+    options.innerHTML = carDB.map(car =>
+      `<option value="${esc(car.name)}"></option>`
+    ).join("");
+  }
+
+  if (!query) {
+    box.innerHTML =
+      "<small>Поиск автомобиля</small><div class='desc'>Начни вводить название машины.</div>";
+    return;
+  }
+
+  const found = carDB.filter(car =>
+    norm(car.name).includes(query)
+  );
+
+  if (!found.length) {
+    box.innerHTML =
+      "<div class='desc'>Модель не найдена в текущем списке. Можно ввести цену вручную.</div>";
+    return;
+  }
+
+  box.innerHTML = found.map(car => {
+    let priceText = car.special
+      ? esc(car.special)
+      : car.price == null
+        ? "Цена не указана — уточни на сервере"
+        : "≈ " + money(car.price) + " виртов";
+
+    return `
+      <div class="activity">
+        <b>${esc(car.name)}</b>
+        <p>${priceText}</p>
+      </div>
+    `;
+  }).join("");
+
+  if (found.length === 1 && found[0].price != null) {
+    const priceInput = document.getElementById("carPrice");
+    if (priceInput) priceInput.value = found[0].price;
+  }
+}
+
+/* ===== КАЛЬКУЛЯТОР НАКОПЛЕНИЙ ===== */
+function calculate() {
+  const price = Number(document.getElementById("carPrice")?.value);
+  const saved = Number(document.getElementById("saved")?.value || 0);
+  const box = document.getElementById("calcResult");
+
+  if (!box) return;
+
+  if (!Number.isFinite(price) || price <= 0) {
+    box.innerHTML =
+      "<div class='desc'>Укажи цену машины больше нуля.</div>";
+    return;
+  }
+
+  if (!Number.isFinite(saved) || saved < 0) {
+    box.innerHTML =
+      "<div class='desc'>Проверь сумму накоплений.</div>";
+    return;
+  }
+
+  const left = Math.max(0, price - saved);
+
+  if (left === 0) {
+    box.innerHTML = `
+      <small>Цель достигнута!</small>
+      <strong>Можно покупать</strong>
+      <div class="desc">Твоих накоплений хватает на указанную цену.</div>
+    `;
+    return;
+  }
+
+  box.innerHTML = `
+    <small>Осталось накопить</small>
+    <strong>${money(left)} виртов</strong>
+    <div class="desc">
+      Цена: ${money(price)}<br>
+      Накоплено: ${money(saved)}<br>
+      Прогресс: ${Math.min(100, saved / price * 100).toFixed(1)}%
+    </div>
+  `;
+}
+
+/* ===== ЗАПУСК ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  renderJobs();
+  findCar();
+
+  const firstButton = document.querySelector(".nav button");
+  if (firstButton) {
+    tab("cars", firstButton);
+  }
+});
+</script>
+</main>
+</body>
+</html>
