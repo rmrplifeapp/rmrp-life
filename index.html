@@ -1,334 +1,179 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<meta name="theme-color" content="#07150d">
-<title>RMRP LIFE | Тверской</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c100d">
+<title>RMRP LIFE</title>
 <style>
-:root{--bg:#07150d;--card:#10251a;--card2:#173725;--green:#30ed82;--white:#f4fff7;--muted:#9db9a6;--line:#285139}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--white);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:15px}
-button,input,select{font:inherit}
-button{cursor:pointer}
-.app{max-width:650px;margin:auto;padding:18px 15px 100px}
-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px}
-.brand{display:flex;align-items:center;gap:11px}
-.logo{width:45px;height:45px;background:var(--green);color:#062010;border-radius:14px;display:grid;place-items:center;font-size:25px;font-weight:1000}
-.brand h1{margin:0;font-size:19px;letter-spacing:1px}
-.brand p{margin:3px 0 0;color:var(--muted);font-size:11px}
-.server{padding:8px 10px;border:1px solid #2c7749;background:#13331f;color:var(--green);border-radius:10px;font-size:11px;font-weight:900;text-align:center}
-.hero{padding:23px 20px;border-radius:21px;border:1px solid #286340;background:linear-gradient(140deg,#1b5632,#10311e 62%,#0b2013);margin-bottom:20px}
-.kicker{color:var(--green);font-size:10px;font-weight:900;letter-spacing:2px}
-.hero h2{font-size:30px;line-height:1.13;margin:12px 0}
-.hero p{font-size:13px;line-height:1.5;color:#c5dfcd;margin:0}
-.tags{display:flex;gap:7px;flex-wrap:wrap;margin-top:17px}
-.tag{background:#0b2415;border:1px solid #326746;border-radius:8px;padding:7px 9px;font-size:11px}
-.nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:23px}
-.nav button{padding:11px 2px;background:#0c1e12;border:1px solid var(--line);border-radius:12px;color:var(--muted);font-size:11px;font-weight:800}
-.nav button.active{background:#17452a;border-color:var(--green);color:var(--green)}
-.nav span{display:block;font-size:20px;margin-bottom:4px}
-.page{display:none}.page.active{display:block}
-.heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 13px}
-.heading h2{font-size:19px;margin:0}.heading small{font-size:10px;color:var(--green);font-weight:900}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px}
-.card h3{font-size:15px;margin:0 0 7px}
-.desc{font-size:12px;color:var(--muted);line-height:1.5;margin:0}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{font-size:22px;color:var(--green);font-weight:900;margin:9px 0 3px;overflow-wrap:anywhere}
-.stat-label{font-size:11px;color:var(--muted)}
-label{display:block;color:#c2d8c8;font-size:12px;margin:13px 0 6px}
-input,select{width:100%;min-width:0;background:#07170e;border:1px solid #31543b;border-radius:11px;color:var(--white);padding:13px;font-size:14px}
-input:focus,select:focus{outline:1px solid var(--green);border-color:var(--green)}
-input::placeholder{color:#688774}
-.btn{width:100%;border:0;border-radius:11px;padding:13px;background:var(--green);color:#052011;font-weight:900;margin-top:10px}
-.btn.alt{background:#173d26;color:var(--green);border:1px solid #326946}
-.btn.dark{background:#0b1c11;color:var(--white);border:1px solid var(--line)}
-.result{margin-top:12px;padding:13px;border:1px solid #326b45;background:#102d1b;border-radius:12px;font-size:13px;line-height:1.65;overflow-wrap:anywhere}
-.result strong{color:var(--green)}
-.progress{height:7px;background:#233b2a;border-radius:8px;margin-top:12px;overflow:hidden}
-.progress div{height:100%;width:0;background:var(--green)}
-.car-list{display:grid;gap:8px;margin-top:12px}
-.car{width:100%;display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left;padding:12px;background:#0b1d11;color:var(--white);border:1px solid var(--line);border-radius:12px}
-.car b{font-size:13px}.car small{display:block;color:var(--muted);font-size:10px;margin-top:4px}
-.car strong{color:var(--green);font-size:12px;text-align:right}
-.work{display:grid;grid-template-columns:minmax(0,1fr) 125px;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
-.work:last-child{border-bottom:0}
-.work b{font-size:13px}.work input{padding:10px}
-.note{font-size:11px;color:var(--muted);line-height:1.6;margin-top:12px}
-.reward-icon{font-size:22px;margin-bottom:10px}
-.hidden{display:none!important}
-footer{text-align:center;color:#66816e;font-size:10px;padding:22px 0}
-@media(min-width:500px){.app{padding-top:25px}.hero{padding:28px}.hero h2{font-size:35px}}
+:root {
+  --bg: #0c100d;
+  --panel: #151c16;
+  --line: #2b382c;
+  --green: #a6ff4d;
+  --muted: #9aa99a;
+  --white: #f2f7f0;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top,#1b2a1a,#0c100d 58%);
+  color: var(--white);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+main {
+  max-width: 570px;
+  margin: auto;
+  padding: 17px 15px 38px;
+}
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 8px 2px 24px;
+}
+.logo {
+  font-weight: 950;
+  letter-spacing: 1px;
+  font-size: 20px;
+}
+.logo span {
+  color: var(--green);
+}
+.beta {
+  border: 1px solid #3d5b31;
+  color: var(--green);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 7px 9px;
+  border-radius: 99px;
+  letter-spacing: 1px;
+}
+h1 {
+  font-size: 34px;
+  line-height: 1.02;
+  letter-spacing: -1px;
+  margin: 0 0 10px;
+}
+h1 span {
+  color: var(--green);
+}
+.muted {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.nav {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 7px;
+  margin: 22px 0 15px;
+}
+.nav button {
+  background: #182019;
+  border: 1px solid var(--line);
+  color: #b8c4b6;
+  border-radius: 12px;
+  padding: 12px 5px;
+  font-size: 12px;
+  font-weight: 800;
+}
+.nav button.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: #10160d;
+}
+.panel {
+  background: linear-gradient(145deg,#19221a,#111612);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 17px;
+  margin: 12px 0;
+}
+.kicker {
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  color: var(--green);
+  text-transform: uppercase;
+}
+.title {
+  font-size: 20px;
+  font-weight: 900;
+  margin: 8px 0;
+}
+.desc {
+  font-size: 13px;
+  color: #b6c2b4;
+  line-height: 1.5;
+}
+.field {
+  display: block;
+  margin: 13px 0;
+}
+.field span {
+  display: block;
+  color: #c7d1c5;
+  font-size: 12px;
+  margin-bottom: 7px;
+}
+.field input,
+.field select {
+  width: 100%;
+  background: #0b100c;
+  border: 1px solid #344235;
+  color: #f5f8f3;
+  padding: 13px;
+  border-radius: 11px;
+  font-size: 15px;
+}
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.btn {
+  width: 100%;
+  border: 0;
+  border-radius: 12px;
+  padding: 14px 12px;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+}
+.primary {
+  background: var(--green);
+  color: #11170d;
+}
+.secondary {
+  background: #222d23;
+  color: #f4f8f2;
+  border: 1px solid #39463a;
+}
+.hidden {
+  display: none !important;
+}
 </style>
 </head>
 <body>
-<div class="app">
-<header>
-  <div class="brand"><div class="logo">R</div><div><h1>RMRP LIFE</h1><p>Твой помощник на Тверском</p></div></div>
-  <div class="server">● RMRP<br>ТВЕРСКОЙ</div>
-</header>
-
-<section class="hero">
-  <div class="kicker">ИГРАЙ С УМОМ</div>
-  <h2>Твоя цель.<br>Твои правила.</h2>
-  <p>Узнавай цены машин, считай заработок и планируй покупки в одном приложении.</p>
-  <div class="tags"><span class="tag">🚘 Автомобили</span><span class="tag">💼 Работы</span><span class="tag">💰 Финансы</span></div>
-</section>
-
-<nav class="nav">
-<button class="active" data-page="home"><span>⌂</span>Главная</button>
-<button data-page="cars"><span>🚘</span>Автомобили</button>
-<button data-page="jobs"><span>💼</span>Работы</button>
-<button data-page="rewards"><span>🎁</span>Награды</button>
-</nav>
-
-<section class="page active" id="home">
-  <div class="heading"><h2>Твоя статистика</h2><small>ЛИЧНЫЙ КАБИНЕТ</small></div>
-  <div class="grid">
-    <div class="card"><div class="stat-label">Твои деньги</div><div class="stat" id="statMoney">0 ₽</div><div class="stat-label">Текущий баланс</div></div>
-    <div class="card"><div class="stat-label">Цена цели</div><div class="stat" id="statGoal">0 ₽</div><div class="stat-label">Твоя покупка</div></div>
-  </div>
-  <div class="card">
-    <h3>💰 Калькулятор накоплений</h3>
-    <p class="desc">Введи свои суммы — рассчитаем остаток и срок покупки.</p>
-    <label for="balance">Сколько денег сейчас</label><input id="balance" type="number" min="0" placeholder="Например, 500000">
-    <label for="target">Стоимость покупки</label><input id="target" type="number" min="0" placeholder="Например, 2500000">
-    <label for="income">Доход за игровой день</label><input id="income" type="number" min="0" placeholder="Например, 200000">
-    <button class="btn" id="calculate">Рассчитать</button>
-    <div class="result" id="calcResult">Введи данные, чтобы начать расчёт.</div>
-    <div class="progress"><div id="progress"></div></div>
-  </div>
-  <div class="card">
-    <h3>Быстрый переход</h3><p class="desc">Нужна машина или расчёт заработка? Открой нужный раздел.</p>
-    <button class="btn alt" data-go="cars">Найти автомобиль →</button>
-    <button class="btn dark" data-go="jobs">Рассчитать работу →</button>
-  </div>
-</section>
-
-<section class="page" id="cars">
-  <div class="heading"><h2>Каталог машин</h2><small>ПОИСК ПО МОДЕЛИ</small></div>
-  <div class="card">
-    <p class="desc">Введи название машины. Выбери модель и укажи актуальную цену, если она неизвестна.</p>
-    <label for="carSearch">Название автомобиля</label><input id="carSearch" placeholder="BMW M5 или БМВ М5">
-    <div id="carList" class="car-list"><p class="desc">Начни вводить название.</p></div>
-    <div id="carBox" class="hidden">
-      <div class="result">
-        <strong id="carName"></strong>
-        <p class="desc" id="carRef"></p>
-        <label for="carPrice">Цена продавца, вирты</label><input id="carPrice" type="number" min="1" placeholder="Укажи цену">
-        <button class="btn" id="carToCalc">Рассчитать покупку</button>
-      </div>
-    </div>
-  </div>
-  <div class="note">Цены меняются на сервере. Если справочной цены нет, укажи цену, которую просит игрок. Неофициальный справочник.</div>
-</section>
-
-<section class="page" id="jobs">
-  <div class="heading"><h2>Работы и доход</h2><small>НАСТРОЙ ПОД СЕБЯ</small></div>
-  <div class="card">
-    <p class="desc">Укажи реальный заработок за смену. Начальные суммы ниже — примеры, их нужно заменить своими данными.</p>
-    <div id="jobsList"></div>
-    <button class="btn alt" id="addJob">＋ Добавить работу</button>
-  </div>
-  <div class="card">
-    <h3>Расчёт заработка</h3>
-    <label for="jobChoice">Работа</label><select id="jobChoice"></select>
-    <label for="shifts">Количество смен</label><input id="shifts" type="number" min="1" value="1">
-    <div class="result" id="jobResult"></div>
-    <button class="btn" id="jobToCalc">Подставить доход в калькулятор</button>
-  </div>
-  <div class="note">Доходы зависят от уровня персонажа, бонусов, времени и правил сервера. Это не официальные тарифы RMRP.</div>
-</section>
-
-<section class="page" id="rewards">
-  <div class="heading"><h2>Награды и заявки</h2><small>ПОЛЕЗНЫЕ ФУНКЦИИ</small></div>
-  <div class="card">
-    <div class="reward-icon">🎟️</div><h3>Промокод</h3><p class="desc">Подготовь текст с промокодом.</p>
-    <label for="promo">Промокод</label><input id="promo" placeholder="Введи промокод">
-    <button class="btn alt" id="promoBtn">Подготовить текст</button>
-  </div>
-  <div class="card">
-    <div class="reward-icon">👥</div><h3>Приглашение друга</h3>
-    <label for="friend">Ник друга</label><input id="friend" placeholder="Имя Фамилия">
-    <button class="btn alt" id="friendBtn">Подготовить текст</button>
-  </div>
-  <div class="card">
-    <div class="reward-icon">🪪</div><h3>Заявка игрока</h3>
-    <label for="nick">Игровой ник</label><input id="nick" placeholder="Имя Фамилия">
-    <label for="static">Static ID</label><input id="static" placeholder="ID персонажа">
-    <label for="requestType">Тип заявки</label>
-    <select id="requestType"><option>Вопрос по награде</option><option>Промокод</option><option>Приглашение друга</option><option>Другое</option></select>
-    <label for="details">Подробности</label><input id="details" placeholder="Что нужно указать">
-    <button class="btn" id="requestBtn">Создать заявку</button>
-  </div>
-  <div id="output" class="card hidden">
-    <h3>Текст готов</h3><div class="result" id="outputText" style="white-space:pre-wrap"></div>
-    <button class="btn alt" id="copyBtn">Скопировать</button>
-  </div>
-  <div class="note">Заявка формируется на устройстве. Для проверки подписки, выдачи наград или отправки администрации потребуется подключение к боту или серверу.</div>
-</section>
-<footer>RMRP LIFE · Неофициальный помощник · Тверской</footer>
+<main>
+<div class="top">
+  <div class="logo">RMRP <span>LIFE</span></div>
+  <div class="beta">FAN PROJECT · BETA</div>
 </div>
 
-<script>
-const $=id=>document.getElementById(id);
-const fmt=n=>Math.round(Number(n)||0).toLocaleString("ru-RU")+" ₽";
-const norm=s=>String(s||"").toLowerCase().replace(/ё/g,"е").replace(/[^a-zа-я0-9]/g,"");
+<h1>ИГРАЙ С ЦЕЛЬЮ.<br>
+<span>КОПИ НА МЕЧТУ.</span></h1>
 
-const pages=[...document.querySelectorAll(".page")];
-const nav=[...document.querySelectorAll(".nav button")];
-function openPage(id){
-  pages.forEach(p=>p.classList.toggle("active",p.id===id));
-  nav.forEach(b=>b.classList.toggle("active",b.dataset.page===id));
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-nav.forEach(b=>b.onclick=()=>openPage(b.dataset.page));
-document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>openPage(b.dataset.go));
+<div class="muted">
+Помощник игрока RMRP: каталог машин, расчёт накоплений,
+заработок на работах и бонусы сообщества.
+</div>
 
-function calc(){
-  const balance=Math.max(0,Number($("balance").value)||0);
-  const target=Math.max(0,Number($("target").value)||0);
-  const income=Math.max(0,Number($("income").value)||0);
-  const left=Math.max(0,target-balance);
-  $("statMoney").textContent=fmt(balance);
-  $("statGoal").textContent=fmt(target);
-  let text=left===0?"<strong>Цель достигнута!</strong>":'Осталось: <strong>'+fmt(left)+'</strong>';
-  if(left>0&&income>0)text+="<br>Примерно игровых дней: <strong>"+Math.ceil(left/income)+"</strong>";
-  else if(left>0)text+="<br>Укажи доход за день для расчёта срока.";
-  $("calcResult").innerHTML=text;
-  $("progress").style.width=(target?Math.min(100,balance/target*100):0)+"%";
-}
-$("calculate").onclick=calc;
-["balance","target","income"].forEach(id=>$(id).addEventListener("input",calc));
-
-/* Добавляй в этот список реальные цены из каталога сервера.
-   null = справочной цены нет, пользователь вводит её вручную. */
-const cars=[
-{name:"Audi RS6 GT",aliases:["ауди рс6 гт","rs6 gt"],price:40000000},
-{name:"BMW M4 CSL",aliases:["бмв м4 цсл","m4 csl"],price:28000000},
-{name:"BMW M5",aliases:["бмв м5"],price:null},
-{name:"BMW M8",aliases:["бмв м8"],price:null},
-{name:"Audi RS7",aliases:["ауди рс7"],price:null},
-{name:"Audi R8",aliases:["ауди р8"],price:null},
-{name:"Nissan GT-R",aliases:["ниссан гтр","гтр"],price:null},
-{name:"Mercedes-Benz E63",aliases:["мерседес е63","мерс е63"],price:null},
-{name:"Mercedes-Benz G63",aliases:["гелик","мерседес г63"],price:null},
-{name:"Mercedes-Benz S-Class",aliases:["мерседес s класс","эс класс"],price:null},
-{name:"Porsche 911",aliases:["порше 911","порш 911"],price:null},
-{name:"Porsche Cayenne",aliases:["порше кайен","кайен"],price:null},
-{name:"Lamborghini Aventador",aliases:["ламборгини авентадор","авентадор"],price:null},
-{name:"Lamborghini Huracan",aliases:["ламборгини уракан","уракан"],price:null},
-{name:"Ferrari F8",aliases:["феррари ф8"],price:null},
-{name:"Toyota Supra",aliases:["тойота супра","супра"],price:null},
-{name:"Toyota Camry",aliases:["тойота камри","камри"],price:null},
-{name:"Dodge Charger",aliases:["додж чарджер","чарджер"],price:null},
-{name:"Ford Mustang",aliases:["форд мустанг","мустанг"],price:null},
-{name:"Chevrolet Camaro",aliases:["шевроле камаро","камаро"],price:null},
-{name:"Volkswagen Golf",aliases:["фольксваген гольф","гольф"],price:null},
-{name:"Lada 2106",aliases:["ваз 2106","жигули","шестерка","шестёрка"],price:null},
-{name:"Lada 2107",aliases:["ваз 2107","семерка","семёрка"],price:null},
-{name:"Lada Priora",aliases:["лада приора","приора"],price:null},
-{name:"Lada Vesta",aliases:["лада веста","веста"],price:null},
-{name:"Toyota Land Cruiser",aliases:["крузак","ленд крузер"],price:null},
-{name:"Range Rover",aliases:["рендж ровер","рэндж ровер"],price:null},
-{name:"Tesla Model S",aliases:["тесла модель с"],price:null}
-];
-let selected=null;
-function renderCars(){
-  const q=norm($("carSearch").value);
-  const list=$("carList");list.innerHTML="";$("carBox").classList.add("hidden");
-  if(!q){list.innerHTML='<p class="desc">Начни вводить название автомобиля.</p>';return}
-  const found=cars.filter(c=>norm(c.name).includes(q)||c.aliases.some(a=>norm(a).includes(q))).slice(0,10);
-  if(!found.length){
-    list.innerHTML='<p class="desc">Модели нет в каталоге. Можно добавить её вручную.</p>';
-    const b=document.createElement("button");b.className="btn alt";b.textContent="Добавить модель";
-    b.onclick=()=>selectCar({name:$("carSearch").value.trim(),price:null});
-    list.appendChild(b);return;
-  }
-  found.forEach(c=>{
-    const b=document.createElement("button");b.className="car";
-    const left=document.createElement("span");
-    const name=document.createElement("b");name.textContent=c.name;
-    const small=document.createElement("small");small.textContent=c.price===null?"Цена не указана":"Справочная цена";
-    left.append(name,small);
-    const price=document.createElement("strong");price.textContent=c.price===null?"Ввести цену":fmt(c.price);
-    b.append(left,price);b.onclick=()=>selectCar(c);list.appendChild(b);
-  });
-}
-function selectCar(c){
-  selected=c;$("carName").textContent=c.name;
-  $("carRef").textContent=c.price===null?"Введи сумму, которую просит продавец.":"Справочная цена: "+fmt(c.price)+". Её можно изменить.";
-  $("carPrice").value=c.price===null?"":c.price;$("carBox").classList.remove("hidden");
-}
-$("carSearch").addEventListener("input",renderCars);
-$("carToCalc").onclick=()=>{
-  const price=Number($("carPrice").value);
-  if(!selected||!Number.isFinite(price)||price<=0){alert("Укажи цену больше нуля.");return}
-  $("target").value=price;calc();openPage("home");
-};
-
-let jobs=[
-{name:"Добыча ресурсов",income:200000},
-{name:"Работа водителем",income:350000},
-{name:"Другая работа",income:500000}
-];
-function renderJobs(){
-  $("jobsList").innerHTML="";$("jobChoice").innerHTML="";
-  jobs.forEach((j,i)=>{
-    const row=document.createElement("div");row.className="work";
-    const label=document.createElement("b");label.textContent=j.name;
-    const input=document.createElement("input");input.type="number";input.min="0";input.value=j.income;
-    input.setAttribute("aria-label","Доход: "+j.name);
-    input.oninput=()=>{jobs[i].income=Math.max(0,Number(input.value)||0);updateJob()};
-    row.append(label,input);$("jobsList").appendChild(row);
-    const opt=document.createElement("option");opt.value=i;opt.textContent=j.name;$("jobChoice").appendChild(opt);
-  });updateJob();
-}
-function updateJob(){
-  const j=jobs[Number($("jobChoice").value)||0];if(!j)return;
-  const shifts=Math.max(1,Number($("shifts").value)||1);
-  $("jobResult").innerHTML="За смену: <strong>"+fmt(j.income)+"</strong><br>За "+shifts+" смен(ы): <strong>"+fmt(j.income*shifts)+"</strong>";
-}
-$("jobChoice").onchange=updateJob;$("shifts").oninput=updateJob;
-$("addJob").onclick=()=>{
-  const name=prompt("Название работы:");
-  if(!name||!name.trim())return;
-  const income=Number(prompt("Заработок за смену в рублях:","0"));
-  if(!Number.isFinite(income)||income<0){alert("Укажи корректную сумму.");return}
-  jobs.push({name:name.trim(),income});renderJobs();
-};
-$("jobToCalc").onclick=()=>{
-  const j=jobs[Number($("jobChoice").value)||0];if(!j)return;
-  $("income").value=j.income;calc();openPage("home");
-};
-
-let request="";
-function output(text){
-  request=text;$("outputText").textContent=text;$("output").classList.remove("hidden");
-}
-$("promoBtn").onclick=()=>{
-  const p=$("promo").value.trim();if(!p){alert("Введи промокод.");return}
-  output("Промокод RMRP\nПромокод: "+p);
-};
-$("friendBtn").onclick=()=>{
-  const f=$("friend").value.trim();if(!f){alert("Введи ник друга.");return}
-  output("Приглашение друга\nНик игрока: "+f);
-};
-$("requestBtn").onclick=()=>{
-  const nick=$("nick").value.trim(),id=$("static").value.trim();
-  if(!nick||!id){alert("Заполни игровой ник и Static ID.");return}
-  output("Заявка RMRP LIFE\nНик: "+nick+"\nStatic ID: "+id+"\nТип: "+$("requestType").value+"\nПодробности: "+$("details").value.trim());
-};
-$("copyBtn").onclick=async()=>{
-  try{await navigator.clipboard.writeText(request);alert("Скопировано.")}
-  catch(e){
-    const t=document.createElement("textarea");t.value=request;document.body.appendChild(t);t.select();
-    const ok=document.execCommand("copy");t.remove();alert(ok?"Скопировано.":"Скопируй текст вручную.");
-  }
-};
-renderCars();renderJobs();calc();
-</script>
-</body>
-</html>
+<div class="nav">
+  <button class="active" onclick="tab('cars',this)">🚘 Гараж мечты</button>
+  <button onclick="tab('rewards',this)">🎁 Награды</button>
+  <button onclick="tab('base',this)">📍 RMRP-база</button>
+</div>
